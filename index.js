@@ -45,22 +45,25 @@ function onKeyUpHandle(event, allowedSymbols, result){
         return;
     }
 
-    if(allowedSymbols === "letters" && !/^[a-zA-Z]+$/.test(value)) {    //(event.keyCode >= 65 && event.keyCode <= 90)
-        alert('You can enter only letters from Latin alphabet');
-        event.target.value = '';
-        return;
-    }
 
-    if(allowedSymbols === "numbers" && !/^[0-9]+$/.test(value)) {   //(event.keyCode >= 48 && event.keyCode <= 57)
-        alert('You can enter only numbers');
-        event.target.value = '';
-        return;
-    }
+    if(keyCode !== 8){
+        if(allowedSymbols === "letters" && !/^[a-zA-Z]+$/.test(value)) {    //(event.keyCode >= 65 && event.keyCode <= 90)
+            alert('You can enter only letters from Latin alphabet');
+            event.target.value = '';
+            return;
+        }
 
-    if(allowedSymbols === "both" && (!/^[a-zA-Z]+$/.test(value) && !/^[0-9]+$/.test(value))) {
-        alert('You can enter only letters from Latin alphabet and numbers');
-        event.target.value = '';
-        return;
+        if(allowedSymbols === "numbers" && !/^[0-9]+$/.test(value)) {   //(event.keyCode >= 48 && event.keyCode <= 57)
+            alert('You can enter only numbers');
+            event.target.value = '';
+            return;
+        }
+
+        if(allowedSymbols === "both" && (!/^[a-zA-Z]+$/.test(value) && !/^[0-9]+$/.test(value))) {
+            alert('You can enter only letters from Latin alphabet and numbers');
+            event.target.value = '';
+            return;
+        }
     }
 
 
@@ -88,6 +91,6 @@ function onKeyUpHandle(event, allowedSymbols, result){
 
 createOtpComponent(6, 'letters', true, result1);
 createOtpComponent(4, 'numers', true, result2);
-createOtpComponent(10, 'both', true, result3);
+createOtpComponent(10, 'both', false, result3);
 
 
