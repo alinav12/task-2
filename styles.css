@@ -1,0 +1,25 @@
+#otp-input{
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.singleSymbol{
+    width: 30px;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	font-size: 24px;
+	margin: 0 10px;
+
+}
+
+form{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    margin: 50px 0;
+}
+
+form > span{
+    margin: 10px 0;
+}
