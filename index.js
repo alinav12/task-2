@@ -90,7 +90,7 @@ function onKeyUpHandle(event, allowedSymbols, result){
 }
 
 createOtpComponent(6, 'letters', true, result1);
-createOtpComponent(4, 'numers', true, result2);
+createOtpComponent(4, 'numbers', true, result2);
 createOtpComponent(10, 'both', false, result3);
 
 
