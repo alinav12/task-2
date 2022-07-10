@@ -28,24 +28,37 @@ function createOtpComponent(symbolsNum, isShown = true, allowedSymbols){
 
 
 function handleInput(e, isShown){
-    console.log(e.target.value);
     let otpTexts = document.getElementsByClassName('otp-text');
 
-    Array.from(otpTexts).forEach((element) => {
-        element.classList.remove('active');
-        element.innerHTML='';
-    });
-
-    for(i = 0; i < e.target.value.length; i++){
-        otpTexts[i].innerHTML = isShown ? e.target.value[i] : '*';
-    }
-
-    if(e.target.value.length !== e.target.maxLength){ 
-        otpTexts[e.target.value.length].classList.add('active');
+    if(e.data){
+        otpTexts[e.target.value.length-1].innerHTML = isShown ? e.data : '*';
+        otpTexts[e.target.value.length-1].classList.remove('active');
+        if(e.target.value.length !== e.target.maxLength) otpTexts[e.target.value.length].classList.add('active');
     }else{
-        alert(`Your password is ${e.target.value}`);
+        otpTexts[e.target.value.length].innerHTML = '';
+        otpTexts[e.target.value.length+1].classList.remove('active');
+        otpTexts[e.target.value.length].classList.add('active');
+    }
+    
+    
+    if(e.target.value.length === e.target.maxLength) alert(`Your password is ${e.target.value}`);
+ 
+
+    // Array.from(otpTexts).forEach((element) => {
+    //     element.classList.remove('active');
+    //     element.innerHTML='';
+    // });
+
+    // for(i = 0; i < e.target.value.length; i++){
+    //     otpTexts[i].innerHTML = isShown ? e.target.value[i] : '*';
+    // }
+
+    // if(e.target.value.length !== e.target.maxLength){ 
+    //     otpTexts[e.target.value.length].classList.add('active');
+    // }else{
+    //     alert(`Your password is ${e.target.value}`);
+    // }
+
     }
 
-}
-
-createOtpComponent(5, true, 'number');
+createOtpComponent(5, false, 'number');
