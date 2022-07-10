@@ -1,96 +1,51 @@
-let result1 = [];
-let result2 = [];
-let result3 = [];
+function createOtpComponent(symbolsNum, isShown = true, allowedSymbols){
+    let otpBlock = document.createElement('div');
+    otpBlock.className = 'otp-block';
+    otpBlock.style.width = '200px';
+    otpBlock.style.height = '50px';
+    document.getElementsByClassName('content')[0].appendChild(otpBlock);
 
-function createOtpComponent(symbolsNum, allowedSymbols = 'both', showSymbols = true, result){
-    let form = document.createElement("form");
-    let otpInputDiv = document.createElement("div");
-    otpInputDiv.id = 'otp-input';
-    form.appendChild(otpInputDiv);
+    let otpInput = document.createElement('input');
+    otpInput.maxLength = symbolsNum;
+    otpInput.type = allowedSymbols == 'number' ? 'number' : 'text';
+    otpBlock.appendChild(otpInput);
+
+    otpInput.addEventListener('input', (e) => {handleInput(e, isShown)});
     
-    for(let i = 1; i <= symbolsNum; i++){
-        let input = document.createElement('input');
-        input.type = showSymbols? "text" : "password";
-        input.id = 'symbol-' + i;
-        input.className = "singleSymbol";
-        input.maxLength = 1;
-        input.addEventListener('keyup', (e) => {onKeyUpHandle(e, allowedSymbols, result)});
-        otpInputDiv.appendChild(input);
+
+    let otpTextWidth = parseInt(otpBlock.style.width)*0.8 / symbolsNum;
+
+    for(i = 0; i < symbolsNum; i++){
+        let otpSingle = document.createElement('div');
+        otpSingle.className = 'otp-text';
+        otpSingle.style.width = `${otpTextWidth}px`
+        otpBlock.appendChild(otpSingle);
     }
 
-    document.getElementsByClassName('content')[0].appendChild(form);
+    otpInput.addEventListener('click', () => {document.getElementsByClassName('otp-text')[0].classList.add('active')}, {once : true});
 
-    let title = document.createElement('span');
-    title.innerHTML = "Enter verification code:";
-    form.prepend(title);
-
-    let text = document.createElement('span');
-    text.innerHTML = `
-        Entered otp: <span class="entered-otp"></span>
-    `;
-    form.append(text);
-    
 }
 
-function onKeyUpHandle(event, allowedSymbols, result){
-    const keyCode = event.which;
-    const value = event.target.value;
-    
 
-    if(result.length === event.target.parentElement.querySelectorAll('.singleSymbol').length){
-        return;
+function handleInput(e, isShown){
+    console.log(e.target.value);
+    let otpTexts = document.getElementsByClassName('otp-text');
+
+    Array.from(otpTexts).forEach((element) => {
+        element.classList.remove('active');
+        element.innerHTML='';
+    });
+
+    for(i = 0; i < e.target.value.length; i++){
+        otpTexts[i].innerHTML = isShown ? e.target.value[i] : '*';
     }
 
-    if(keyCode === 16){
-        return;
-    }
-
-
-    if(keyCode !== 8){
-        if(allowedSymbols === "letters" && !/^[a-zA-Z]+$/.test(value)) {    //(event.keyCode >= 65 && event.keyCode <= 90)
-            alert('You can enter only letters from Latin alphabet');
-            event.target.value = '';
-            return;
-        }
-
-        if(allowedSymbols === "numbers" && !/^[0-9]+$/.test(value)) {   //(event.keyCode >= 48 && event.keyCode <= 57)
-            alert('You can enter only numbers');
-            event.target.value = '';
-            return;
-        }
-
-        if(allowedSymbols === "both" && (!/^[a-zA-Z]+$/.test(value) && !/^[0-9]+$/.test(value))) {
-            alert('You can enter only letters from Latin alphabet and numbers');
-            event.target.value = '';
-            return;
-        }
-    }
-
-
-    if(keyCode === 8){
-        if(event.target.previousSibling){
-            event.target.previousSibling.disabled = false;
-            event.target.previousSibling.focus();
-        } 
-        result.pop(value);
-        event.target.value = '';
+    if(e.target.value.length !== e.target.maxLength){ 
+        otpTexts[e.target.value.length].classList.add('active');
     }else{
-        result.push(value);
-        event.target.disabled = true;
-        if(event.target.nextSibling){
-            event.target.nextSibling.focus();   
-        }
-        event.target.parentElement.nextSibling.querySelector(".entered-otp").innerHTML = result.join('');
-    }
-
-    if(result.length === event.target.parentElement.querySelectorAll('.singleSymbol').length){
-        alert('Your password is ' + result.join(''));
+        alert(`Your password is ${e.target.value}`);
     }
 
 }
 
-createOtpComponent(6, 'letters', true, result1);
-createOtpComponent(4, 'numbers', true, result2);
-createOtpComponent(10, 'both', false, result3);
-
-
+createOtpComponent(5, true, 'number');

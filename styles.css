@@ -1,4 +1,4 @@
-#otp-input{
+/* #otp-input{
     display: flex;
     flex-flow: row nowrap;
 }
@@ -22,4 +22,46 @@ form{
 
 form > span{
     margin: 10px 0;
+} */
+
+input{
+    opacity: 0;
+    z-index: 1;
+    height: inherit;
+    width: inherit;
+    position: absolute;
 }
+.otp-block{
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+div.otp-text{
+    z-index: -1;
+    border: 1px solid black;
+    height: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+}
+
+.active{
+    border-color: blue !important;
+}
+
+@keyframes cursor-blink {
+    0% {
+      opacity: 0;
+    }
+}
+  
+.active::before {
+    content: "";
+    width: 2px;
+    height: 80%;
+    background: black;
+    display: inline-block;
+    animation: cursor-blink 1.5s steps(2) infinite;
+  }
